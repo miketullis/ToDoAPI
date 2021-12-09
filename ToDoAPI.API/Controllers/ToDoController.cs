@@ -43,14 +43,14 @@ namespace ToDoAPI.API.Controllers
             }
 
             return Ok(toDos);//200 success code and we also pass resources into the Ok response
-        }//end GetResources()
+        }//end GetToDo()
 
 
 
         //api/ToDoItems/id - Get request (READ)
         public IHttpActionResult GetToDo(int id)
         {
-            //Create a ResourceViewModel object to collect the data from the db
+            //Create a ToDoViewModel object to collect the data from the db
             ToDoViewModel toDos = db.ToDoItems.Include("Category").Where(t => t.ToDoId == id).Select(t => new ToDoViewModel()
             {
                 //assign values - copy this from the GetTodos
@@ -71,7 +71,7 @@ namespace ToDoAPI.API.Controllers
 
             return Ok(toDos);
 
-        }//end GetResource()
+        }//end GetToDo()
 
         //Post - Create functionality
         //api/ToDoItems (HttpPost)
@@ -105,12 +105,11 @@ namespace ToDoAPI.API.Controllers
                 return BadRequest("Invalid Data");
             }
 
-            //Capture the corresponding resource to edit from the db
+            //Capture the corresponding toDo to edit from the db
             ToDoItem existingToDo = db.ToDoItems.Where(t => t.ToDoId == toDo.ToDoId).FirstOrDefault();
 
             if (existingToDo != null)
             {
-                //Have the resource to edit
                 existingToDo.ToDoId = toDo.ToDoId;
                 existingToDo.Action = toDo.Action;
                 existingToDo.Done = toDo.Done;
@@ -122,7 +121,7 @@ namespace ToDoAPI.API.Controllers
             {
                 return NotFound();
             }//end else
-        }//end PutResource()
+        }//end PutToDo()
 
 
         //api/ToDoItems/id (HttpDelete)
